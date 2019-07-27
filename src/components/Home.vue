@@ -1,17 +1,37 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-
+    <vue-metamask
+            userMessage="msg"
+            @onComplete="onComplete"
+    >
+    </vue-metamask>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'Home',
-  props: {
-    msg: String
+
+  import VueMetamask from 'vue-metamask';
+
+  export default {
+    name: 'Home',
+    props: {
+      msg: String
+    },
+    components: {
+      VueMetamask,
+    },
+    data(){
+      return {
+        msg: "This is demo net work"
+      }
+    },
+    methods:{
+      onComplete(data){
+        console.log('data:', data);
+      }
+    }
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
