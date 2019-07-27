@@ -1,19 +1,27 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <vue-metamask
-            userMessage="msg"
-            @onComplete="onComplete"
-    >
-    </vue-metamask>
+<!--    <vue-metamask-->
+<!--            userMessage="msg"-->
+<!--            @onComplete="onComplete"-->
+<!--    >-->
+<!--    </vue-metamask>-->
 
     <h2>address:</h2>{{address}}
+
+
+    <p>Network: {{ network }}</p>
+    <p>Account: {{ coinbase }}</p>
+    <p>Balance: {{ balance }} Wei // {{ ethBalance }} Eth</p>
+
   </div>
 </template>
 
 <script>
+  import {NETWORKS} from '../util/constants/networks'
+  import {mapState} from 'vuex'
 
-  import VueMetamask from 'vue-metamask';
+  //import VueMetamask from 'vue-metamask';
 
   export default {
     name: 'Home',
@@ -21,16 +29,27 @@
       msg: String
     },
     components: {
-      VueMetamask,
+      //VueMetamask,
     },
     data(){
       return {
         web3:"",
         msg2: "This is demo network",
-        balance:"",
-        amount:"",
         address:""
       }
+    },
+    computed: mapState({
+      isInjected: state => state.web3.isInjected,
+      network: state => NETWORKS[state.web3.networkId],
+      coinbase: state => state.web3.coinbase,
+      balance: state => state.web3.balance,
+      ethBalance: state => {
+        if (state.web3.web3Instance !== null) return state.web3.web3Instance().fromWei(state.web3.balance, 'ether')
+      }
+    }),
+    beforeCreate () {
+      console.log('registerWeb3 Action dispatched from Home')
+      this.$store.dispatch('registerWeb3')
     },
     async mounted(){
       //get info
@@ -62,7 +81,7 @@
       onComplete(data){
         console.log('data:', data);
         this.address = data.metaMaskAddress
-        this.web3 = data.web3
+        //this.web3 = data.web3
 
       },
       checkWeb3() {
