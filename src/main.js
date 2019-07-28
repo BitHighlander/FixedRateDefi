@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import VueLogger from 'vuejs-logger';
+import BlackDashboard from "./plugins/blackDashboard";
+
 Vue.config.productionTip = false
 
 //logging options
@@ -19,6 +21,7 @@ const options = {
 Vue.config.productionTip = false
 
 Vue.use(VueLogger, options);
+Vue.use(BlackDashboard);
 
 new Vue({
   router,
