@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import DashboardLayout from './layout/Layout.vue';
+import Starter from './layout/BasePage.vue';
+// const Profile = () => import(/* webpackChunkName: "common" */ "@/pages/Profile.vue");
+const Profile = () => import(/* webpackChunkName: "common" */ "@/pages/Profile.vue");
 
 Vue.use(Router)
 
@@ -9,15 +12,20 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      redirect: '/dashboard',
+      component: DashboardLayout,
+      children: [
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          components: { default: Starter }
+        },
+        {
+          path: "profile",
+          name: "profile",
+          component: Profile
+        }
+      ]
     }
   ]
 })

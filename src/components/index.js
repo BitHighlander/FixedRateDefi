@@ -13,7 +13,7 @@ import CloseButton from "./CloseButton";
 import Card from "./Cards/Card.vue";
 import StatsCard from "./Cards/StatsCard.vue";
 
-import SidebarPlugin from "./SidebarPlugin";
+import SidebarPlugin from "./SidebarPlugin/index";
 
 export {
     BaseInput,
